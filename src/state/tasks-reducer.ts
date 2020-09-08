@@ -1,7 +1,8 @@
-import {TasksStateType} from "../App";
+import {TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid"
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
 import {TaskType} from "../TodoList";
+import {act} from "react-dom/test-utils";
 
 export type removeTaskActionType = {
     type: 'REMOVE_TASK'
@@ -29,6 +30,8 @@ export type changeTaskTitleActionType = {
     title: string
 }
 
+let initialState: TasksStateType = {};
+
 type ActionTypes =
     removeTaskActionType
     | addTaskActionType
@@ -37,7 +40,7 @@ type ActionTypes =
     | AddTodolistActionType
     | RemoveTodolistActionType
 
-export const tasksReducer = (state: TasksStateType, action: ActionTypes): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK':
             let newTodolist = [...state[action.todolistId].filter(task => task.id !== action.taskId)]
@@ -46,13 +49,39 @@ export const tasksReducer = (state: TasksStateType, action: ActionTypes): TasksS
             let newTask = {id: v1(), title: action.title, isDone: false};
             return {...state, [action.todolistId]: [newTask, ...state[action.todolistId]]};
         case 'CHANGE_TASK_STATUS':
+            //const stateCopy = {...state};
+            //let tasks = stateCopy[action.todolistId];
             return {
-                ...state, [action.todolistId]: changeTitleAndStatus(state[action.todolistId], action.taskId, action.isDone)
-            };
+                ...state, [action.todolistId]: state[action.todolistId].map(task => {
+                    if (task.id !== action.taskId) {
+                        return task
+                    } else {
+                        return {...task, isDone: action.isDone}
+                    }
+                })
+            }
+            // return {
+            //     ...state, [action.todolistId]: changeTitleAndStatus(state[action.todolistId], action.taskId, action.isDone)
+            // };
         case 'CHANGE_TASK_TITLE':
+            // const stateCopy = {...state};
+            // let tasks = stateCopy[action.todolistId];
+            // let task = tasks.find (t => t.id === action.taskId);
+            // if (task) {
+            //     task.title = action.title;
+            // }
             return {
-                ...state, [action.todolistId]: changeTitleAndStatus(state[action.todolistId], action.taskId, action.title)
-            };
+                ...state, [action.todolistId]: state[action.todolistId].map(task => {
+                    if (task.id !== action.taskId) {
+                        return task;
+                    } else {
+                        return {...task, title: action.title}
+                    }
+                })
+            }
+            // return {
+            //     ...state, [action.todolistId]: changeTitleAndStatus(state[action.todolistId], action.taskId, action.title)
+            // };
         case 'ADD-TODOLIST':
             return {...state, [action.todolistId]: []};
         case 'REMOVE-TODOLIST':
@@ -60,7 +89,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionTypes): TasksS
             delete newState[action.id]
             return newState;
         default:
-            throw new Error("IDK");
+            return state;
     }
 }
 

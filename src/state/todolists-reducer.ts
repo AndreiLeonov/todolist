@@ -1,5 +1,6 @@
 import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid"
+import {TaskType} from "../TodoList";
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST'
@@ -21,13 +22,15 @@ export type ChangeTodolistFilterActionType = {
     filter: FilterValuesType
 }
 
+let initialState: Array<TodolistType> = [];
+
 type ActionTypes =
     RemoveTodolistActionType
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
 
-export const todolistsReducer = (state: Array<TodolistType>, action: ActionTypes): Array<TodolistType> => {
+export const todolistsReducer = (state: Array<TodolistType> = initialState, action: ActionTypes): Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(tdlst => tdlst.id !== action.id);
@@ -65,7 +68,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionTypes
             return state.map(t => t.id === action.id ? {...t, filter: action.filter} : t);
 
         default:
-            throw new Error("IDK");
+            return state;
     }
 }
 
