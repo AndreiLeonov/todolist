@@ -106,13 +106,14 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, title: str
     return {type: 'CHANGE_TASK_TITLE', todolistId, taskId, title}
 }
 
-let changeTitleAndStatus = (tasks: Array<TaskType>, taskId: string, property: string | boolean): Array<TaskType> => {
-    let propertyName = typeof property === "string" ? 'title' : 'isDone';
-    return [...tasks.map(task => {
-        if (task.id !== taskId) {
-            return task
-        } else {
-            return {...task, [propertyName]: property}
-        }
-    })]
-}
+//для дальнейшего рефакторинга в case 'CHANGE_TASK_STATUS' и case 'CHANGE_TASK_TITLE'
+// let changeTitleAndStatus = (tasks: Array<TaskType>, taskId: string, property: string | boolean): Array<TaskType> => {
+//     let propertyName = typeof property === "string" ? 'title' : 'isDone';
+//     return [...tasks.map(task => {
+//         if (task.id !== taskId) {
+//             return task
+//         } else {
+//             return {...task, [propertyName]: property}
+//         }
+//     })]
+// }

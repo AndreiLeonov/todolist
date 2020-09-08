@@ -89,10 +89,10 @@ function AppWithRedux() {
     //     dispatch(action);
     // }
 
-    function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
-    }
+    // function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
+    //     const action = changeTaskTitleAC(id, newTitle, todolistId);
+    //     dispatch(action);
+    // }
 
     function changeTodoListTitle(todolistId: string, newTitle: string) {
         const action = ChangeTodolistTitleAC (todolistId, newTitle);
