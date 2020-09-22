@@ -1,8 +1,6 @@
-import {TasksStateType, TodolistType} from "../App";
+import {TasksStateType} from "../App";
 import {v1} from "uuid"
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
-import {TaskType} from "../TodoList";
-import {act} from "react-dom/test-utils";
 
 export type removeTaskActionType = {
     type: 'REMOVE_TASK'

@@ -1,4 +1,4 @@
-import React, {useState, ChangeEvent, KeyboardEvent} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditSpan} from "./EditSpan";
@@ -6,7 +6,6 @@ import {Button, IconButton, Checkbox} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {TasksStateType, TodolistType} from "./AppWithRedux";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 
 export type TaskType = {
@@ -18,14 +17,9 @@ export type TaskType = {
 type PropsType = {
     id: string
     title: string
-    //tasks: Array<TaskType>
-    //removeTask: (taskId: string, todolostId: string) => void
     changeFilter: (newFilterValue: FilterValuesType, todolostId: string) => void
-    //addTask: (title: string, todolostId: string) => void
-    //changeTaskStatus: (taskId: string, isDone: boolean, todolostId: string) => void
     filter: FilterValuesType
     removeTodolist: (todolostId: string) => void
-    //changeTaskTitle: (taskId: string, newTitle: string, todolostId: string) => void
     changeTodoListTitle: (todolostId: string, newTitle: string) => void
 }
 
