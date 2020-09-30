@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditSpan} from "./EditSpan";
@@ -46,7 +46,10 @@ export function TodoList(props: PropsType) {
         props.changeTodoListTitle(props.id, newTitle)
     }
 
-    const addTask = (title: string) => dispatch(addTaskAC(title, props.id));
+    //const addTask = (title: string) => dispatch(addTaskAC(title, props.id));
+    const addTask = useCallback( (title: string) => {
+        dispatch(addTaskAC(title, props.id))
+    }, [dispatch]);
 
 
     return (<div>
