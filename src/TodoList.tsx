@@ -23,7 +23,8 @@ type PropsType = {
     changeTodoListTitle: (todolostId: string, newTitle: string) => void
 }
 
-export function TodoList(props: PropsType) {
+export const TodoList = React.memo( (props: PropsType) => {
+    console.log("TodoList")
 
 
     let tasksObj = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
@@ -45,11 +46,10 @@ export function TodoList(props: PropsType) {
     const changeTodoListTitle = (newTitle: string) => {
         props.changeTodoListTitle(props.id, newTitle)
     }
-
-    //const addTask = (title: string) => dispatch(addTaskAC(title, props.id));
+    
     const addTask = useCallback( (title: string) => {
         dispatch(addTaskAC(title, props.id))
-    }, [dispatch]);
+    }, []);
 
 
     return (<div>
@@ -108,4 +108,4 @@ export function TodoList(props: PropsType) {
             </div>
         </div>
     );
-}
+})

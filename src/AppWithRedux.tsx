@@ -22,29 +22,27 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
+    console.log("AppWithRedux")
 
     let todolists = useSelector<AppRootStateType, Array<TodolistType>>((state) => state.todolists);
 
     let dispatch = useDispatch();
 
-    function changeTodoListTitle(todolistId: string, newTitle: string) {
-        const action = ChangeTodolistTitleAC (todolistId, newTitle);
-        dispatch(action);
-    }
+    const changeTodoListTitle = useCallback( (todolistId: string, newTitle: string) => {
+        dispatch(ChangeTodolistTitleAC (todolistId, newTitle));
+    }, [])
 
-    function changeFilter(newFilterValue: FilterValuesType, todolostId: string) {
-        const action = ChangeTodolistFilterAC (todolostId, newFilterValue);
-        dispatch(action);
-    }
+    const changeFilter = useCallback( (newFilterValue: FilterValuesType, todolostId: string) => {
+        dispatch(ChangeTodolistFilterAC (todolostId, newFilterValue));
+    }, [])
 
-    let removeTodolist = (todolistId: string) => {
-        const action = RemoveTodolistAC(todolistId);
-        dispatch(action);
-    }
+    const removeTodolist = useCallback ((todolistId: string) => {
+        dispatch(RemoveTodolistAC(todolistId));
+    }, []);
 
     const addTodoList = useCallback( (title: string) => {
         dispatch(AddTodolistAC (title))
-    },[dispatch]);
+    },[]);
 
     return (
         <div className="App">

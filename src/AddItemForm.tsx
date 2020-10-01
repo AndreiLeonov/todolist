@@ -22,7 +22,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
             setError(null);
         }
         if (e.key === 'Enter') {
-            addItem()
+            addItem();
         }
     }
 
