@@ -7,9 +7,6 @@ import {Delete} from "@material-ui/icons";
 import {TaskType} from "./TodoList";
 
 type TaskPropsType = {
-    //removeTaskHandler: (taskId: string, todolistId: string) => void
-    //changeTaskStatus: (taskId: string, NewCheckBoxValue: boolean ,todolistId: string) => void
-    //changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     task: TaskType
     todolistId: string
 }

@@ -47,43 +47,29 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             let newTask = {id: v1(), title: action.title, isDone: false};
             return {...state, [action.todolistId]: [newTask, ...state[action.todolistId]]};
         case 'CHANGE_TASK_STATUS':
-            //const stateCopy = {...state};
-            //let tasks = stateCopy[action.todolistId];
             return {
-                ...state, [action.todolistId]: state[action.todolistId].map(task => {
-                    if (task.id !== action.taskId) {
-                        return task
-                    } else {
-                        return {...task, isDone: action.isDone}
-                    }
-                })
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(task => task.id !== action.taskId
+                        ? task
+                        : {...task, isDone: action.isDone})
             }
-            // return {
-            //     ...state, [action.todolistId]: changeTitleAndStatus(state[action.todolistId], action.taskId, action.isDone)
-            // };
         case 'CHANGE_TASK_TITLE':
-            // const stateCopy = {...state};
-            // let tasks = stateCopy[action.todolistId];
-            // let task = tasks.find (t => t.id === action.taskId);
-            // if (task) {
-            //     task.title = action.title;
-            // }
             return {
-                ...state, [action.todolistId]: state[action.todolistId].map(task => {
-                    if (task.id !== action.taskId) {
-                        return task;
-                    } else {
-                        return {...task, title: action.title}
-                    }
-                })
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(task => task.id !== action.taskId
+                        ? task
+                        : {...task, title: action.title})
             }
-            // return {
-            //     ...state, [action.todolistId]: changeTitleAndStatus(state[action.todolistId], action.taskId, action.title)
-            // };
         case 'ADD-TODOLIST':
-            return {...state, [action.todolistId]: []};
+            return {
+                ...state,
+                [action.todolistId]: []};
         case 'REMOVE-TODOLIST':
-            let newState = {...state}
+            let newState = {
+                ...state
+            }
             delete newState[action.id]
             return newState;
         default:
