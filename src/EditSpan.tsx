@@ -6,7 +6,7 @@ type EditSpanPropsType = {
     saveNewTitle: (newTitle: string) => void
 }
 
-export const EditSpan = (props: EditSpanPropsType) => {
+export const EditSpan = React.memo( (props: EditSpanPropsType) => {
 
     let [editMode, setEditMode] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(props.title);
@@ -31,4 +31,4 @@ export const EditSpan = (props: EditSpanPropsType) => {
             autoFocus={true}
             onChange={changeTitle}/>
         : <span onDoubleClick={activateEditMode}>{props.title}</span>
-}
+})
