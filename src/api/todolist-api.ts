@@ -7,16 +7,12 @@ type TodolistType= {
     title: string
 }
 
-const settings = {
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
         'API-KEY': '47abf291-5646-442e-a8b1-279217d07bf7'
     }
-}
-
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    ...settings
 })
 
 export const todolistAPI = {
