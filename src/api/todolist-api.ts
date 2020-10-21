@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-type CommonResponseType<T={}> = {
+export type CommonResponseType<T={}> = {
     resultCode: number
     messages: string[] //Array<string>
     fieldsErrors: Array<string>
