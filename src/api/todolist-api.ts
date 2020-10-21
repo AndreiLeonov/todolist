@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+type CommonResponseType<T={}> = {
+    resultCode: number
+    messages: string[] //Array<string>
+    fieldsErrors: Array<string>
+    data: T
+}
+
 type TodolistType= {
     id: string
     addedDate: string
@@ -20,12 +27,12 @@ export const todolistAPI = {
         return instance.get<Array<TodolistType>>(`todo-lists/`)
     },
     createTodolist(title: string) {
-        return instance.post(`todo-lists/`, {title})
+        return instance.post<CommonResponseType<{ item: TodolistType }>>(`todo-lists/`, {title})
     },
     deleteTodolist(todolistId: string) {
-        return instance.delete(`todo-lists/${todolistId}`)
+        return instance.delete<CommonResponseType>(`todo-lists/${todolistId}`)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put(`todo-lists/${todolistId}`, {title})
+        return instance.put<CommonResponseType>(`todo-lists/${todolistId}`, {title})
     },
 }
