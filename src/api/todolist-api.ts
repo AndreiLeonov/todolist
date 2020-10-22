@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-export type CommonResponseType<T={}> = {
+export type CommonResponseType<T = {}> = {
     resultCode: number
     messages: string[] //Array<string>
     fieldsErrors: Array<string>
     data: T
 }
 
-type TodolistType= {
+type TodolistType = {
     id: string
     addedDate: string
     order: number

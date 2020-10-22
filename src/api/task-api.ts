@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { CommonResponseType } from './todolist-api'
+import {CommonResponseType} from './todolist-api'
 
-type CommonResponseTasksType = {
+type GetTasksResponseType = {
     totalCount: number
     error: string | null
     items: TasksType[]
@@ -41,15 +41,15 @@ const instance = axios.create({
 
 export const taskAPI = {
     getTasks(todolistId: string) {
-        return instance.get<CommonResponseTasksType>(`todo-lists/${todolistId}/tasks`)
+        return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<CommonResponseType<TasksType>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<CommonResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTaskTitle(todolistId: string, taskId: string, title:string) {
+    updateTaskTitle(todolistId: string, taskId: string, title: string) {
         return instance.put<UpdateTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
     },
 }
