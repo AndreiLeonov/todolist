@@ -52,7 +52,8 @@ function AppWithReducers() {
     }
 
     function addTask(title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
+        const action = addTaskAC({id: v1(), title: "Milk", status: TaskStatuses.Completed, todoListId: todolistId2, description: '',
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low});
         dispatchToTasks(action);
     }
 
