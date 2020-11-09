@@ -1,38 +1,47 @@
 import React from 'react'
 import './App.css'
-import {AppBar, Button, Container, IconButton, Toolbar, Typography, LinearProgress} from '@material-ui/core'
+import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from '@material-ui/core'
 import {Menu} from '@material-ui/icons'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
-import {RequestStatusType} from "./app-reducer";
-import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
+import {useSelector} from 'react-redux'
+import {AppRootStateType} from './store'
+import {RequestStatusType} from './app-reducer'
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {Login} from '../features/Login/Login'
 
-function App() {
+type PropsType = {
+    demo?: boolean
+}
 
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
-
+function App({demo = false}: PropsType) {
+    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
     return (
-        <div className="App">
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
-
-            { status === "loading" && <LinearProgress color="secondary" /> }
-
-            <Container fixed>
-                <TodolistsList/>
-            </Container>
-            <ErrorSnackbar/>
-        </div>
+        <BrowserRouter>
+            <div className="App">
+                <ErrorSnackbar/>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            News
+                        </Typography>
+                        <Button color="inherit">Login</Button>
+                    </Toolbar>
+                    {status === 'loading' && <LinearProgress/>}
+                </AppBar>
+                <Container fixed>
+                    <Switch>
+                        <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
+                        <Route path={'/login'} render={() => <Login/>}/>
+                        <Route path={'/404'} render={() => <h1>404</h1>}/>
+                        <Redirect to={'/404'} from={'*'}/>
+                    </Switch>
+                </Container>
+            </div>
+        </BrowserRouter>
     )
 }
 
