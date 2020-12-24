@@ -20,7 +20,9 @@ function App({demo = false}: PropsType) {
     let dispatch = useDispatch()
 
     useEffect( () => {
-        dispatch(initializeAppTC())
+        if (!demo) {
+            dispatch(initializeAppTC())
+        }
     }, [])
 
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status);
