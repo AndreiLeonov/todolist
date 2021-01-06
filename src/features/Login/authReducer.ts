@@ -1,17 +1,20 @@
 import { Dispatch } from "redux";
 import { setAppStatusAC } from "../../app/app-reducer";
-import { authAPI, LoginParamsType } from "../../api/todolists-api";
+import { authAPI, FieldErrorType, LoginParamsType } from "../../api/todolists-api";
 import {
   handleServerAppError,
   handleServerNetworkError,
 } from "../../utils/error-utils";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 
 const initialState = {
   isLoggedIn: false,
 };
 
-export const loginTC = createAsyncThunk(
+export const loginTC = createAsyncThunk<{ isLoggedIn: boolean },LoginParamsType, {rejectValue: {
+    errors: Array<string>, fieldsErrors?: Array<FieldErrorType>
+}} >(
   "auth/loginTC",
   async (param: LoginParamsType, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
@@ -22,11 +25,18 @@ export const loginTC = createAsyncThunk(
         return { isLoggedIn: true };
       } else {
         handleServerAppError(res.data, thunkAPI.dispatch);
-        return { isLoggedIn: false };
+        return thunkAPI.rejectWithValue({
+          errors: res.data.messages,
+          fieldsErrors: res.data.fieldsErrors,
+        });
       }
-    } catch (error) {
+    } catch (err) {
+      const error: AxiosError = err;
       handleServerNetworkError(error, thunkAPI.dispatch);
-      return { isLoggedIn: false };
+      return thunkAPI.rejectWithValue({
+        errors: [error.message],
+        fieldsErrors: undefined,
+      });
     }
   }
 );
@@ -41,9 +51,9 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginTC.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn
-  })
-}
+      state.isLoggedIn = action.payload.isLoggedIn;
+    });
+  },
 });
 
 export const authReducer = slice.reducer;
@@ -51,7 +61,6 @@ export const authReducer = slice.reducer;
 export const { setIsLoggedInAC } = slice.actions;
 
 // thunks
-
 export const logoutTC = () => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC({ status: "loading" }));
   authAPI
