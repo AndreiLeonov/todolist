@@ -107,7 +107,7 @@ type GetTasksResponse = {
     items: TaskType[]
 }
 
-type LoginParamsType = {
+export type LoginParamsType = {
     email: string
     password: string
     rememberMe: boolean

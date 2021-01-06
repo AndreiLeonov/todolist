@@ -23,9 +23,9 @@ export const fetchTasksTC = createAsyncThunk("tasks/fetchTasksTC", async (todoli
     thunkAPI.dispatch(setAppStatusAC({status:'succeeded'}))
     return {tasks, todolistId}; //this is payload for builder.addCase(fetchTasksTC)
 })
-export const removeTaskTC = createAsyncThunk("tasks/removeTaskTC", (param: {taskId: string, todolistId: string}, thunkAPI) => {
-    return todolistsAPI.deleteTask(param.todolistId, param.taskId)
-        .then(res => ({taskId: param.taskId, todolistId: param.todolistId} ))
+export const removeTaskTC = createAsyncThunk("tasks/removeTaskTC", async (param: {taskId: string, todolistId: string}, thunkAPI) => {
+    const res = await todolistsAPI.deleteTask(param.todolistId, param.taskId)
+        return {taskId: param.taskId, todolistId: param.todolistId}
 
 })
 
